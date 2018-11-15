@@ -15,7 +15,7 @@ android {
         applicationId "com.azure.mobile.azuredataandroidexample_java"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 1
+        versionCode 2
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -37,11 +37,11 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.microsoft.appcenter:appcenter-distribute:1.9.0'
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.android.support:cardview-v7:27.1.1'
-    implementation 'com.microsoft.appcenter:appcenter-distribute:1.9.0'
     compile 'com.microsoft.identity.client:msal:0.1.1'
     implementation 'com.azure.android:azuredata:0.1.1'
     androidTestImplementation 'com.android.support:support-annotations:28.0.0'
