@@ -1,66 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:paddingTop="@dimen/activity_vertical_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin"
+              android:paddingBottom="@dimen/activity_vertical_margin">
 
     <TextView
         android:id="@+id/title"
-        android:textAlignment="center"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:textSize="18sp"
-        android:text="Databases"/>
+        android:text="Databases"
+        android:textAlignment="center"
+        android:textSize="18sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/button_clear"
             android:layout_width="88dp"
             android:layout_height="wrap_content"
-            android:background="#008B75"
-            android:layout_weight="1"
             android:layout_marginRight="10dp"
-            android:textColor="#ffffff"
-            android:text="Clear" />
+            android:layout_weight="1"
+            android:background="#008B75"
+            android:text="Clear"
+            android:textColor="#ffffff"/>
 
         <Button
             android:id="@+id/button_fetch"
             android:layout_width="88dp"
             android:layout_height="wrap_content"
-            android:background="#008B75"
-            android:layout_weight="1"
             android:layout_marginLeft="10dp"
-            android:textColor="#ffffff"
-            android:text="Fetch" />
+            android:layout_weight="1"
+            android:background="#008B75"
+            android:text="Fetch"
+            android:textColor="#ffffff"/>
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button_create"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#0000ff"
         android:layout_marginTop="10dp"
-        android:textColor="#ffffff"
-        android:text="Create Database" />
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_login"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:background="#0000ff"
+                android:text="Login with IP"
+                android:textColor="#ffffff"/>
+
+            <ProgressBar
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:indeterminate="true"
+                android:indeterminateTint="#0000ff"
+                android:progressTint="#0000ff"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_create"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="#0000ff"
+            android:text="Create Database"
+            android:textColor="#ffffff"/>
+
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:paddingTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"/>
+        android:orientation="horizontal"
+        android:paddingTop="15dp"/>
 
 </LinearLayout>

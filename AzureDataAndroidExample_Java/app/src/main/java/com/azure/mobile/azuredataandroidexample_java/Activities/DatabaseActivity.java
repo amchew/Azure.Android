@@ -11,22 +11,30 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.azure.data.AzureData;
 import com.azure.data.model.Database;
 import com.azure.mobile.azuredataandroidexample_java.Adapter.Callback;
 import com.azure.mobile.azuredataandroidexample_java.Adapter.CardAdapter;
 import com.azure.mobile.azuredataandroidexample_java.Adapter.DatabaseViewHolder;
-import com.azure.mobile.azuredataandroidexample_java.Controllers.App;
 import com.azure.mobile.azuredataandroidexample_java.R;
+import com.microsoft.identity.client.AuthenticationCallback;
+import com.microsoft.identity.client.AuthenticationResult;
+import com.microsoft.identity.client.MsalClientException;
+import com.microsoft.identity.client.MsalException;
+import com.microsoft.identity.client.MsalServiceException;
+import com.microsoft.identity.client.PublicClientApplication;
 
 import static com.azure.data.util.FunctionalUtils.onCallback;
 
 public class DatabaseActivity extends Activity {
 
     private static final String TAG = "DatabaseActivity";
-
+    private ProgressBar _spinner;
+    private PublicClientApplication _sampleApp;
     private CardAdapter<Database> _adapter;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +74,10 @@ public class DatabaseActivity extends Activity {
         Button clearButton = findViewById(R.id.button_clear);
         Button fetchButton = findViewById(R.id.button_fetch);
         Button createButton = findViewById(R.id.button_create);
-
+        Button loginButton = findViewById(R.id.button_login);
+        _spinner = findViewById(R.id.spinner);
         clearButton.setOnClickListener(v -> _adapter.clear());
+        loginButton.setOnClickListener(v -> login());
 
         createButton.setOnClickListener(v -> {
 
@@ -122,5 +132,58 @@ public class DatabaseActivity extends Activity {
                 ex.printStackTrace();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        _sampleApp.handleInteractiveRequestRedirect(requestCode, resultCode, data);
+    }
+
+    private void login() {
+        _spinner.setVisibility(View.VISIBLE);
+
+        _sampleApp = new PublicClientApplication(
+                this.getApplicationContext(),
+                Constants.CLIENT_ID,
+                String.format(Constants.AUTHORITY, Constants.TENANT, Constants.SISU_POLICY));
+        String[] scopes = Constants.SCOPES.split("\\s+");
+        _sampleApp.acquireToken(this, scopes, getAuthInteractiveCallback());
+    } private AuthenticationCallback getAuthInteractiveCallback() {
+        return new AuthenticationCallback() {
+            @Override
+            public void onSuccess(AuthenticationResult authenticationResult) {
+                _spinner.setVisibility(View.GONE);
+
+                /* Successfully got a token, call api now */
+                Log.d(TAG, "Successfully authenticated");
+                Log.d(TAG, "ID Token: " + authenticationResult.getIdToken());
+
+                Toast.makeText(DatabaseActivity.this, "Successful login.", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onError(MsalException exception) {
+                _spinner.setVisibility(View.GONE);
+                /* Failed to acquireToken */
+                Log.d(TAG, "Authentication failed: " + exception.toString());
+
+                Toast.makeText(DatabaseActivity.this, "Authentication failed: " + exception.toString(), Toast.LENGTH_LONG).show();
+                if (exception instanceof MsalClientException) {
+                    /* Exception inside MSAL, more info inside MsalError.java */
+                    assert true;
+                } else if (exception instanceof MsalServiceException) {
+                    /* Exception when communicating with the STS, likely config issue */
+                    assert true;
+
+                }
+            }
+
+            @Override
+            public void onCancel() {
+                _spinner.setVisibility(View.GONE);
+                /* User canceled the authentication */
+                Log.d(TAG, "User cancelled login.");
+            }
+        };
     }
 }

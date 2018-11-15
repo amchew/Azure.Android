@@ -33,6 +33,20 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <!--Intent filter to capture System Browser calling back to our app after Sign In-->
+        <activity
+            android:name="com.microsoft.identity.client.BrowserTabActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!--Add in your scheme/host from registered redirect URI-->
+                <data android:scheme="msalb17d3a74-c82e-4c5f-a2c5-73f45e13a8fd"
+                      android:host="auth" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
